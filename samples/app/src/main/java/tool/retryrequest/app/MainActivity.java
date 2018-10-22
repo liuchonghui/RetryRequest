@@ -40,6 +40,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(final View view) {
                 String url = "http://api.kuai.mvideo.xiaomi.com/api/cp/1/fstoken";
+                url = "https://api.kuai.mvideo.xiaomi.com/api/video/2?noop=1&vid=j-ylCRwAVtcKLX1jUcNjUiQhkMwu0u8=";
                 RetryRequest.get()
                         .setEnableLogcat(true)
                         .setLogtag("PPP")

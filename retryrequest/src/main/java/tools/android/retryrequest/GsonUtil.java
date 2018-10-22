@@ -2,6 +2,8 @@ package tools.android.retryrequest;
 
 import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
+
 public class GsonUtil {
 
     static private Gson mGson;
@@ -27,6 +29,20 @@ public class GsonUtil {
         T o = null;
         try {
             o = mGson.fromJson(json, classOfT);
+        } catch (Throwable t) {
+            t.printStackTrace();
+            o = null;
+        }
+        return o;
+    }
+
+    public static <T> T fromJson(String json, Type typeOfT) {
+        if (mGson == null) {
+            mGson = new Gson();
+        }
+        T o = null;
+        try {
+            o = mGson.fromJson(json, typeOfT);
         } catch (Throwable t) {
             t.printStackTrace();
             o = null;

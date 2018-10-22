@@ -215,7 +215,7 @@ public class RetryRequest {
         }
         if (t == null) {
             // 错误类型：无法gson
-            LogUtil.d(TAG, "requestToken|result|noObject");
+            LogUtil.d(TAG, "parseResponse|result|noObject");
             state = new State();
             state.error = ErrorCode.REQUEST_JSON_GSON_ERROR;
             return state;
@@ -224,13 +224,13 @@ public class RetryRequest {
             // 错误类型：转化失败
             if (!response.isSuccessful()) {
                 // 这种情况是因为502引起的，虽然能gson，但是不是我们要的token信息
-                LogUtil.d(TAG, "requestToken|result|responseStr|" + jsonResult + "|responseCode|" + responseCode);
+                LogUtil.d(TAG, "parseResponse|result|responseStr|" + jsonResult + "|responseCode|" + responseCode);
                 state = new State();
                 state.error = ErrorCode.REQUEST_RESPONSE_CODE_NOT_200;
                 return state;
             } else {
                 // 这种情况就是平常的转化失败
-                LogUtil.d(TAG, "requestToken|result|noData");
+                LogUtil.d(TAG, "parseResponse|result|noData");
                 state = new State();
                 state.error = ErrorCode.REQUEST_OBJECT_NO_DATA;
                 return state;
@@ -238,7 +238,7 @@ public class RetryRequest {
         }
         if (t instanceof Legally && !((Legally) t).isLegal()) {
             // 这种情况是不符合对象的isLegal方法判断
-            LogUtil.d(TAG, "requestToken|result|illegal");
+            LogUtil.d(TAG, "parseResponse|result|illegal");
             state = new State();
             state.error = ErrorCode.REQUEST_OBJECT_NOT_LEGAL;
             return state;
@@ -247,7 +247,7 @@ public class RetryRequest {
         state.success = true;
         state.t = t;
         state.error = null;
-        LogUtil.d(TAG, "requestToken|result|success|");
+        LogUtil.d(TAG, "parseResponse|result|success|");
         return state;
     }
 }
