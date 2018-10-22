@@ -29,6 +29,5 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':cpsdk')
-    compile 'com.google.code.gson:gson:2.2.2'
+    compile project(':retryrequest')
 }

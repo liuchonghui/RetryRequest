@@ -1,7 +1,6 @@
-package tool.cpsdk.app;
+package tool.retryrequest.app;
 
 import android.app.Activity;
-import android.compact.impl.TaskPayload;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -10,10 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
-import tools.android.cpsdk.CpSdk;
-import tools.android.cpsdk.ResultListener;
+import tools.android.retryrequest.GsonUtil;
+import tools.android.retryrequest.Result;
+import tools.android.retryrequest.RetryRequest;
 
 public class MainActivity extends Activity {
 
@@ -30,7 +28,7 @@ public class MainActivity extends Activity {
         final TextView btn2ret = (TextView) findViewById(R.id.btn2_ret);
 
         if (mHandler == null) {
-            HandlerThread ht = new HandlerThread("phonestate-single-thread") {
+            HandlerThread ht = new HandlerThread("retryrequest-single-thread") {
                 {
                     start();
                 }
@@ -41,12 +39,22 @@ public class MainActivity extends Activity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                CpSdk.requestUrl(view.getContext(), "qbjQzrp7X5Az", new ResultListener() {
-                    @Override
-                    public void onPayloadResult(TaskPayload payload) {
-                        Log.d("PPP", "requestUrl|qbjQzrp7X5Az|=>|" + new Gson().toJson(payload));
-                    }
-                });
+                String url = "http://api.kuai.mvideo.xiaomi.com/api/cp/1/fstoken";
+                RetryRequest.get()
+                        .setEnableLogcat(true)
+                        .setLogtag("PPP")
+                        .setDelayMillis(333L)
+                        .request(url, new Result<FsToken>() {
+                            @Override
+                            public void onSuccess(FsToken fsToken) {
+                                Log.d("PPP", "RetryRequest|onSuccess|" + GsonUtil.toJson(fsToken));
+                            }
+
+                            @Override
+                            public void onFailure(int code) {
+                                Log.d("PPP", "RetryRequest|onFailure|" + code);
+                            }
+                        }, FsToken.class);
             }
         });
 

@@ -6,13 +6,13 @@ public class GsonUtil {
 
     static private Gson mGson;
 
-    public static String toJson(Ex ex) {
+    public static String toJson(Object obj) {
         if (mGson == null) {
             mGson = new Gson();
         }
         String jsonResult = null;
         try {
-            jsonResult = mGson.toJson(ex);
+            jsonResult = mGson.toJson(obj);
         } catch (Throwable t) {
             t.printStackTrace();
             jsonResult = null;
