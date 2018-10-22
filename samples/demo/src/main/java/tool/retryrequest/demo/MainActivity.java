@@ -9,6 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import tools.android.retryrequest.GsonUtil;
+import tools.android.retryrequest.Result;
+import tools.android.retryrequest.RetryRequest;
+
 
 public class MainActivity extends Activity {
 
@@ -36,6 +40,22 @@ public class MainActivity extends Activity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+                String url = "http://api.kuai.mvideo.xiaomi.com/api/cp/1/fstoken";
+                RetryRequest.get()
+                        .setEnableLogcat(true)
+                        .setLogtag("PPP")
+                        .setDelayMillis(333L)
+                        .request(url, new Result<FsToken>() {
+                            @Override
+                            public void onSuccess(FsToken fsToken) {
+                                Log.d("PPP", "RetryRequest|onSuccess|" + GsonUtil.toJson(fsToken));
+                            }
+
+                            @Override
+                            public void onFailure(int code) {
+                                Log.d("PPP", "RetryRequest|onFailure|" + code);
+                            }
+                        }, FsToken.class);
             }
         });
 
