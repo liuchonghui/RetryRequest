@@ -29,6 +29,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-
-    compile 'tools.android:retryrequest:0.0.2'
+    compile 'tools.android:interface:1.1.2'
+//    compile 'tools.android:retryrequest:0.0.2'
 }
