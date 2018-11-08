@@ -17,12 +17,21 @@ import okhttp3.Response;
 
 public class RetryRequest {
 
+    private static RetryRequest instance;
+
     private RetryRequest() {
         super();
     }
 
     public static RetryRequest get() {
-        return new RetryRequest();
+        if (instance == null) {
+            synchronized (RetryRequest.class) {
+                if (instance == null) {
+                    instance = new RetryRequest();
+                }
+            }
+        }
+        return instance;
     }
 
     public RetryRequest setEnableLogcat(boolean enable) {
@@ -30,7 +39,7 @@ public class RetryRequest {
         return this;
     }
 
-    private String TAG = "RR";
+    private static String TAG = "RR";
 
     public RetryRequest setLogtag(String tag) {
         if (tag != null && tag.length() > 0) {

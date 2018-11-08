@@ -3,13 +3,14 @@ package tools.android.retryrequest.etc;
 import tools.android.retryrequest.Result;
 import tools.android.retryrequest.RetryRequest;
 
-public class How2Use {
+class Usage {
 
-    void run() {
+    public void run() {
         String url = "";
         RetryRequest.get()
                 .setEnableLogcat(true)
                 .setLogtag("RRR")
+                .setDelayMillis(3333L)
                 .request(url, new Result<Content>() {
                     @Override
                     public void onSuccess(Content content) {
